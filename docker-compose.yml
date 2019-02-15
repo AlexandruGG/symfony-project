@@ -1,0 +1,9 @@
+version: "3"
+services:
+  mySQL:
+    image: mysql:5.6
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    command: mysqld --max_allowed_packet=128M --sql-mode=""
