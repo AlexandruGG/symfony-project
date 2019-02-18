@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +27,16 @@ class Company
      * @ORM\Column(type="string", length=10)
      */
     private $paymentReference;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Agent", mappedBy="company", orphanRemoval=true)
+     */
+    private $agents;
+
+    public function __construct()
+    {
+        $this->agents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -51,6 +63,37 @@ class Company
     public function setPaymentReference(string $paymentReference): self
     {
         $this->paymentReference = $paymentReference;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Agent[]
+     */
+    public function getAgents(): Collection
+    {
+        return $this->agents;
+    }
+
+    public function addAgent(Agent $agent): self
+    {
+        if (!$this->agents->contains($agent)) {
+            $this->agents[] = $agent;
+            $agent->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgent(Agent $agent): self
+    {
+        if ($this->agents->contains($agent)) {
+            $this->agents->removeElement($agent);
+            // set the owning side to null (unless already changed)
+            if ($agent->getCompany() === $this) {
+                $agent->setCompany(null);
+            }
+        }
 
         return $this;
     }
