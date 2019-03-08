@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AddAgentController!{% endblock %}
+{% block title %}Hello Admin!{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,14 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Add Agent Below</h1>
+    {{form(form)}}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/alexgidei/dev/my-project/src/Controller/AddAgentController.php'|file_link(0) }}">src/Controller/AddAgentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/alexgidei/dev/my-project/templates/add_agent/index.html.twig'|file_link(0) }}">templates/add_agent/index.html.twig</a></code></li>
-    </ul>
+   {% for message in app.flashes('success') %}
+       <div class="flash-notice">
+           {{ message }}
+       </div>
+   {% endfor %}
 </div>
+
 {% endblock %}
