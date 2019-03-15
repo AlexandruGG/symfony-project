@@ -4,6 +4,7 @@ namespace App\Command;
 
 
 use App\Entity\Company;
+use App\Util\PaymentUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -32,7 +33,10 @@ class CreateCompanyCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $company = (new Company())->setName($input->getArgument('name'))->setPaymentReference(md5(random_bytes(8)));
+
+            $company = (new Company())->setName($input->getArgument('name'))->setPaymentReference(
+                PaymentUtil::generatePaymentReference()
+            );
         } catch (\Exception $e) {
             $company = null;
         }
