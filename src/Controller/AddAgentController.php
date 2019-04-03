@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Agent;
 use App\Form\AddAgentType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,13 +32,17 @@ class AddAgentController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash("success", "Agent Submitted!");
+
             return $this->redirectToRoute('add_agent');
         }
 
 
-        return $this->render('add_agent/index.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'add_agent/index.html.twig',
+            [
+                'form' => $form->createView(),
+            ]
+        );
     }
 
 }

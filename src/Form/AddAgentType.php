@@ -17,17 +17,23 @@ class AddAgentType extends AbstractType
         $builder
             ->add('name')
             ->add('active')
-            ->add('company', EntityType::class, [
-                'class' => Company::class,
-                'choice_label' => 'name'
-            ])
+            ->add(
+                'company',
+                EntityType::class,
+                [
+                    'class' => Company::class,
+                    'choice_label' => 'name',
+                ]
+            )
             ->add('save', SubmitType::class, ['label' => 'Add Agent']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Agent::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Agent::class,
+            ]
+        );
     }
 }
