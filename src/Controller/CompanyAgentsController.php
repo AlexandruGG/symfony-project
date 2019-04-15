@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\Agent;
 use App\Entity\Company;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Flex\Response;
 use Twig\Environment;
 
 
