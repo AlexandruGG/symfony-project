@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello Admin!{% endblock %}
+{% block title %}Company Agents{% endblock %}
 
 {% block body %}
     <style>
@@ -18,14 +18,13 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Add Agent Below</h1>
-        {{ form(addAgentForm) }}
+        <h1>{{ company.name }}</h1>
 
-        {% for message in app.flashes('success') %}
-            <div class="flash-notice">
-                {{ message }}
+        {% for agent in agents %}
+            <div>
+                {{ agent.name }}
             </div>
         {% endfor %}
-    </div>
 
+    </div>
 {% endblock %}

@@ -47,4 +47,9 @@ class CompanyRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOneByName($name): ?Company
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
 }

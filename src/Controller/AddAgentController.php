@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AddAgentController extends AbstractController
 {
     /**
-     * @Route("/agents/new", name="add_agent")
+     * @Route("admin/agents/new", name="add_agent")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -40,7 +40,7 @@ class AddAgentController extends AbstractController
         return $this->render(
             'add_agent/index.html.twig',
             [
-                'form' => $form->createView(),
+                'addAgentForm' => $form->createView(),
             ]
         );
     }
