@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +41,30 @@ class RegistrationFormType extends AbstractType
                         ),
                     ],
                 ]
+            )
+            ->add(
+                'roles',
+                ChoiceType::class,
+                [
+                    'choices' => [
+                        'Agent' => 'ROLE_AGENT',
+                        'Admin' => 'ROLE_ADMIN',
+                    ],
+                ]
+            )
+            ->get('roles')
+            ->addModelTransformer(
+                new CallbackTransformer(
+                    function ($roles) {
+                        return $roles;
+                    },
+                    function ($roles) {
+                        return [$roles];
+                    }
+
+                )
             );
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

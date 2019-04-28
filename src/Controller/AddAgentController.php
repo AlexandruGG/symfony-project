@@ -35,7 +35,7 @@ class AddAgentController
     }
 
     /**
-     * @Route("admin/agents/new", name="add_agent")
+     * @Route("admin/agent/new", name="add_agent")
      * @param Request $request
      * @return RedirectResponse|Response
      * @throws \Twig\Error\LoaderError
@@ -56,7 +56,7 @@ class AddAgentController
             $this->entityManager->persist($agent);
             $this->entityManager->flush();
 
-            $request->getSession()->getFlashBag()->add("success", "Agent Submitted!");
+            $request->getSession()->getFlashBag()->add('success', 'Agent Submitted!');
 
             return new RedirectResponse($this->router->generate('add_agent'));
         }

@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Entity\Company;
+use App\Form\CreateCompanyType;
+use App\Util\PaymentUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -11,10 +12,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Twig\Environment;
 
-class RegistrationController
+class CreateCompanyController
 {
     private $entityManager;
     private $formFactory;
@@ -35,45 +35,41 @@ class RegistrationController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("admin/company/create", name="create_company")
      * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function index(Request $request)
     {
-        $user = new User();
-        $form = $this->formFactory->create(RegistrationFormType::class, $user);
-//        $form->get('roles')->setData(['ROLE_ADMIN']);
+        $company = new Company();
+
+        $form = $this->formFactory->create(CreateCompanyType::class, $company);
+        $form->get('paymentReference')->setData(PaymentUtil::generatePaymentReference());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            $company = $form->getData();
 
-            $this->entityManager->persist($user);
+            $this->entityManager->persist($company);
             $this->entityManager->flush();
 
-            // do anything else you need here, like send an email
+            $request->getSession()->getFlashBag()->add('success', 'Company Created!');
 
-            return new RedirectResponse($this->router->generate('app_login'));
+            return new RedirectResponse($this->router->generate('create_company'));
         }
 
         $content = $this->twig->render(
-            'registration/register.html.twig',
+            'add_agent/index.html.twig',
             [
-                'registrationForm' => $form->createView(),
+                'addAgentForm' => $form->createView(),
             ]
         );
 
-        return new Response ($content);
+        return new Response($content);
+
+
     }
 }
