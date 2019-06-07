@@ -41,29 +41,29 @@ class RegistrationFormType extends AbstractType
                         ),
                     ],
                 ]
-            )
-            ->add(
-                'roles',
-                ChoiceType::class,
-                [
-                    'choices' => [
-                        'Agent' => 'ROLE_AGENT',
-                        'Admin' => 'ROLE_ADMIN',
-                    ],
-                ]
-            )
-            ->get('roles')
-            ->addModelTransformer(
-                new CallbackTransformer(
-                    function ($roles) {
-                        return $roles;
-                    },
-                    function ($roles) {
-                        return [$roles];
-                    }
-
-                )
             );
+//            ->add(
+//                'roles',
+//                ChoiceType::class,
+//                [
+//                    'choices' => [
+//                        'Agent' => 'ROLE_AGENT',
+//                        'Admin' => 'ROLE_ADMIN',
+//                    ],
+//                ]
+//            )
+//            ->get('roles')
+//            ->addModelTransformer(
+//                new CallbackTransformer(
+//                    function ($roles) {
+//                        return $roles;
+//                    },
+//                    function ($roles) {
+//                        return [$roles];
+//                    }
+//
+//                )
+//            );
 
     }
 

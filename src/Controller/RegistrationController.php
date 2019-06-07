@@ -13,6 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class RegistrationController
 {
@@ -35,19 +38,20 @@ class RegistrationController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/register/{registrationKey}", name="app_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param string $registrationKey
      * @return RedirectResponse|Response
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, string $registrationKey)
     {
-        $user = new User();
+        $user = $this->entityManager->getRepository(User::class)->findOneByRegistrationKey($registrationKey);
+
         $form = $this->formFactory->create(RegistrationFormType::class, $user);
-//        $form->get('roles')->setData(['ROLE_ADMIN']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

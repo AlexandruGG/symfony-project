@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"email"}, message="Invalid registration key for this user")
  */
 class User implements UserInterface
 {
@@ -25,7 +25,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", nullable=true)
      */
     private $roles;
 
@@ -34,6 +34,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $registrationKey;
 
     public function getId(): ?int
     {
@@ -89,6 +94,22 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRegistrationKey(): string
+    {
+
+        return $this->registrationKey;
+    }
+
+    public function setRegistrationKey(string $registrationKey): self
+    {
+        $this->registrationKey = $registrationKey;
 
         return $this;
     }

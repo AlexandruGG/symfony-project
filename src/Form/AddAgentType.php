@@ -25,6 +25,13 @@ class AddAgentType extends AbstractType
                     'choice_label' => 'name',
                 ]
             )
+            ->add(
+                'email',
+                null,
+                array(
+                    "mapped" => false,
+                )
+            )
             ->add('save', SubmitType::class, ['label' => 'Add Agent']);
     }
 
@@ -33,6 +40,7 @@ class AddAgentType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => Agent::class,
+                'allow_extra_fields' => true,
             ]
         );
     }

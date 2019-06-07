@@ -19,6 +19,7 @@ security:
           - App\Security\AddAgentAuthenticator
       logout:
           path: app_logout
+          target: app_login
 
   access_control:
     - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

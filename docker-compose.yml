@@ -1,9 +1,23 @@
 version: "3"
 services:
   mySQL:
-    image: mysql:5.6
+    image: mysql:5.7
     ports:
       - "3307:3306"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     command: mysqld --max_allowed_packet=128M --sql-mode=""
+    volumes:
+      - ./var/lib/mysql:/var/lib/mysql:cached
+
+  mailhog:
+    image: mailhog/mailhog
+    user: root # to avoid permissions issues on maildir
+    logging:
+      driver: 'none'  # disable saving logs
+    environment:
+      MH_STORAGE: "memory"
+      MH_MAILDIR_PATH: /maildir
+    ports:
+      - "8025:8025"
+      - "1025:1025"
